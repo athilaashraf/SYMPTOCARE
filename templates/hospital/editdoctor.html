@@ -1,0 +1,225 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form action="/editdoctorpost" method="post" enctype="multipart/form-data" name="form1" id="form1">#}
+{#  <table width="200" border="1">#}
+{#    <tr>#}
+{#      <td>Dotor name </td>#}
+{#      <td><label>#}
+{#        <input type="text" name="textfield3" value="{{ data.doctorname}}"/>#}
+{#      </label></td>#}
+{#    </tr>#}
+{#    <tr>#}
+{#      <td>Department</td>#}
+{#      <td><label>#}
+{#        <input type="text" name="textfield4" value="{{ data.department}}"/>#}
+{#      </label></td>#}
+{#    </tr>#}
+{#    <tr>#}
+{#      <td>Qualification</td>#}
+{#      <td><label>#}
+{#        <input type="text" name="textfield5" value="{{ data.qualification}}"/>#}
+{#      </label></td>#}
+{#    </tr>#}
+{#    <tr>#}
+{#       <td>Image</td>#}
+{#      <td><label>#}
+{#        <input type="file" name="file" value="{{ data.image}}" />#}
+{#      </label></td>#}
+{#    </tr>#}
+{#    <tr>#}
+{#      <td>Place</td>#}
+{#      <td><label>#}
+{#        <input type="text" name="textfield7" value="{{ data.place}}"/>#}
+{#      </label></td>#}
+{#    </tr>#}
+{#    <tr>#}
+{#      <td>Pin</td>#}
+{#      <td><label>#}
+{#        <input type="text" name="textfield8" value="{{ data.pin}}" />#}
+{#      </label></td>#}
+{#    </tr>#}
+{#    <tr>#}
+{#      <td>Post</td>#}
+{#      <td><label>#}
+{#        <input type="text" name="textfield9" value="{{ data.post}}" />#}
+{#      </label></td>#}
+{#    </tr>#}
+{#    <tr>#}
+{#      <td colspan="2"><div align="center">#}
+{#        <label>#}
+{#        <input type="submit" name="Submit" value="Add" />#}
+{#        </label>#}
+{#      </div></td>#}
+{#    </tr>#}
+{#  </table>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>Edit Doctor</title>
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    /* Form container styling */
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    table {
+      width: 100%;
+      border-spacing: 10px;
+    }
+
+    td {
+      padding: 8px;
+      font-size: 1em;
+      vertical-align: top;
+    }
+
+    td input[type="text"], td input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1em;
+    }
+
+    /* Styling for Submit button */
+    input[type="submit"] {
+      background-color: #2321ff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-size: 1.1em;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #1a1ad9;
+    }
+
+    /* Label Styling */
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <form action="/editdoctorpost" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    <table border="0">
+      <tr>
+        <td>Doctor Name</td>
+        <td><input type="text" name="textfield3" value="{{ data.doctorname }}" /></td>
+      </tr>
+      <tr>
+        <td>Department</td>
+        <td><input type="text" name="textfield4" value="{{ data.department }}" /></td>
+      </tr>
+      <tr>
+        <td>Qualification</td>
+        <td><input type="text" name="textfield5" value="{{ data.qualification }}" /></td>
+      </tr>
+      <tr>
+        <td>Image</td>
+        <td><input type="file" name="file" value="{{ data.image }}" /></td>
+      </tr>
+      <tr>
+        <td>Place</td>
+        <td><input type="text" name="textfield7" value="{{ data.place }}" /></td>
+      </tr>
+      <tr>
+        <td>Pin</td>
+        <td><input type="text" name="textfield8" value="{{ data.pin }}" /></td>
+      </tr>
+      <tr>
+        <td>Post</td>
+        <td><input type="text" name="textfield9" value="{{ data.post }}" /></td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center">
+          <input type="submit" name="Submit" value="Update" />
+        </td>
+      </tr>
+    </table>
+  </form>
+
+  <script>
+    document.getElementById("form1").onsubmit = function () {
+      const name = document.forms["form1"]["textfield3"].value.trim();
+      const department = document.forms["form1"]["textfield4"].value.trim();
+      const qualification = document.forms["form1"]["textfield5"].value.trim();
+      const place = document.forms["form1"]["textfield7"].value.trim();
+      const pin = document.forms["form1"]["textfield8"].value.trim();
+      const post = document.forms["form1"]["textfield9"].value.trim();
+
+      const pinRegex = /^\d{6}$/;
+
+      if (name === "") {
+        alert("Doctor Name is required.");
+        return false;
+      }
+
+      if (department === "") {
+        alert("Department is required.");
+        return false;
+      }
+
+      if (qualification === "") {
+        alert("Qualification is required.");
+        return false;
+      }
+
+      if (place === "") {
+        alert("Place is required.");
+        return false;
+      }
+
+      if (pin === "" || !pinRegex.test(pin)) {
+        alert("Please enter a valid 6-digit PIN.");
+        return false;
+      }
+
+      if (post === "") {
+        alert("Post is required.");
+        return false;
+      }
+
+      return true;
+    };
+  </script>
+</body>
+</html>

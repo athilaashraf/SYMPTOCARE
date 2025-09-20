@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Add Doctor</title>
+<style>
+  /* Basic Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+
+  form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  table {
+    width: 100%;
+    border-spacing: 10px;
+  }
+
+  td {
+    padding: 8px;
+    font-size: 1em;
+    vertical-align: top;
+  }
+
+  td input[type="text"], td input[type="password"], td input[type="file"], td select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+  }
+
+  /* Special styling for select dropdown */
+  select {
+    background-color: white;
+    cursor: pointer;
+    appearance: auto;
+  }
+
+  select:focus {
+    border-color: #2321ff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(35, 33, 255, 0.3);
+  }
+
+  input[type="submit"] {
+    background-color: #2321ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #1a18cc;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  input[type="file"] {
+    padding: 5px;
+  }
+
+  .form-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+</style>
+
+<script type="text/javascript">
+  function validateForm() {
+    var form = document.forms["form1"];
+
+    var username = form["textfield"].value.trim();
+    var password = form["textfield2"].value.trim();
+    var doctorname = form["textfield3"].value.trim();
+    var department = form["textfield4"].value.trim();
+    var qualification = form["textfield5"].value.trim();
+    var image = form["file"].value.trim();
+    var place = form["textfield7"].value.trim();
+    var pin = form["textfield8"].value.trim();
+    var post = form["textfield9"].value.trim();
+
+    if (username === "") {
+      alert("Please enter the User Name");
+      return false;
+    }
+
+    if (password === "") {
+      alert("Please enter the Password");
+      return false;
+    }
+
+    if (doctorname === "") {
+      alert("Please enter the Doctor Name");
+      return false;
+    }
+
+    if (department === "" || department === "select") {
+      alert("Please select a Department");
+      return false;
+    }
+
+    if (qualification === "") {
+      alert("Please enter the Qualification");
+      return false;
+    }
+
+    if (image === "") {
+      alert("Please upload an Image");
+      return false;
+    }
+
+    if (place === "") {
+      alert("Please enter the Place");
+      return false;
+    }
+
+    if (pin === "") {
+      alert("Please enter the Pin code");
+      return false;
+    } else if (!/^\d{6}$/.test(pin)) {
+      alert("Please enter a valid 6-digit Pin code");
+      return false;
+    }
+
+    if (post === "") {
+      alert("Please enter the Post");
+      return false;
+    }
+
+    return true;
+  }
+</script>
+
+</head>
+
+<body>
+  <h2 class="form-title">Add New Doctor</h2>
+  
+  <form action="/adddoctorpost" method="post" enctype="multipart/form-data" name="form1" id="form1" onsubmit="return validateForm();">
+    {% csrf_token %}
+    <table border="0">
+      <tr>
+        <td>User Name</td>
+        <td><input type="text" name="textfield" required /></td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td><input type="password" name="textfield2" required /></td>
+      </tr>
+      <tr>
+        <td>Doctor Name</td>
+        <td><input type="text" name="textfield3" required /></td>
+      </tr>
+      <tr>
+        <td>Department</td>
+        <td>
+            <select name="textfield4" required>
+                <option value="">-- Select Department --</option>
+                {% for dept in departments %}
+                    <option value="{{ dept.id }}">{{ dept.department_name }}</option>
+                {% endfor %}
+            </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Qualification</td>
+        <td><input type="text" name="textfield5" required /></td>
+      </tr>
+      <tr>
+        <td>Image</td>
+        <td><input type="file" name="file" accept="image/*" required /></td>
+      </tr>
+      <tr>
+        <td>Place</td>
+        <td><input type="text" name="textfield7" required /></td>
+      </tr>
+      <tr>
+        <td>Pin</td>
+        <td><input type="text" name="textfield8" maxlength="6" required /></td>
+      </tr>
+      <tr>
+        <td>Post</td>
+        <td><input type="text" name="textfield9" required /></td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center">
+          <input type="submit" name="Submit" value="Add" />
+        </td>
+      </tr>
+    </table>
+  </form>
+</body>
+</html>

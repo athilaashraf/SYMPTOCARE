@@ -1,0 +1,147 @@
+{#<form action="" method="get"></form><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form name="form1" method="post" action="/addschedulepost">#}
+{#  <table width="200" border="1" cellspacing="1" cellpadding="2">#}
+{##}
+{#    <tr>#}
+{#      <td scope="row"><div align="left">Date</div></td>#}
+{#      <td><label for="label2"></label>#}
+{#      <input type="date" name="textfield3" id="label2"></td>#}
+{#    </tr>#}
+{#    <tr>#}
+{#      <td scope="row"><div align="left">From time </div></td>#}
+{#      <td><label for="label3"></label>#}
+{#      <input type="text" name="textfield4" id="label3"></td>#}
+{#    </tr>#}
+{#    <tr>#}
+{#      <td scope="row"><div align="left">To time </div></td>#}
+{#      <td><label for="label4"></label>#}
+{#      <input type="text" name="textfield5" id="label4"></td>#}
+{#    </tr>#}
+{#    <tr>#}
+{#      <td colspan="2" scope="row"><label for="Submit"></label>#}
+{#        <input type="submit" name="Submit" value="Add" id="Submit"></td>#}
+{#    </tr>#}
+{#  </table>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>Add Schedule</title>
+  <style>
+    /* Reset default margin and padding */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    form {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    table {
+      width: 100%;
+      border-spacing: 10px;
+    }
+
+    td {
+      padding: 10px;
+      vertical-align: middle;
+    }
+
+    label {
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    input[type="date"],
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    input[type="submit"] {
+      background-color: #2321ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #2321ff;
+    }
+
+    .form-row {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <form name="form1" method="post" action="/addschedulepost">
+    <table>
+      <tr class="form-row">
+        <td scope="row">
+          <label for="label2">Date</label>
+        </td>
+        <td>
+          <input type="date" name="textfield3" id="label2" required>
+        </td>
+      </tr>
+      <tr class="form-row">
+        <td scope="row">
+          <label for="label3">From Time</label>
+        </td>
+        <td>
+          <input type="text" name="textfield4" id="label3" required>
+        </td>
+      </tr>
+      <tr class="form-row">
+        <td scope="row">
+          <label for="label4">To Time</label>
+        </td>
+        <td>
+          <input type="text" name="textfield5" id="label4" required>
+        </td>
+      </tr>
+      <tr class="form-row">
+        <td colspan="2" scope="row">
+          <input type="submit" name="Submit" value="Add" id="Submit">
+        </td>
+      </tr>
+    </table>
+  </form>
+</body>
+</html>

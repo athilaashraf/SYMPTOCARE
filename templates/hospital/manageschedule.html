@@ -1,0 +1,136 @@
+{#<form action="" method="get"></form><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<table width="237" border="1" cellspacing="1" cellpadding="4">#}
+{#  <tr>#}
+{#    <th colspan="6" scope="row"><div align="left"><a href="/addschedule">Addschedule</a></div></th>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td width="23" >s no </td>#}
+{#    <td width="29">Date</td>#}
+{#    <td width="41">From time</td>#}
+{#    <td width="29">To time </td>#}
+{#    <td width="2">&nbsp;</td>#}
+{#  </tr>#}
+{#         {% for i in data %}#}
+{#  <tr>#}
+{#    <td>{{ forloop.counter }} </td>#}
+{#    <td>{{ i.date }}</td>#}
+{#    <td>{{ i.fromtime }}</td>#}
+{#    <td>{{ i.totime }}</td>#}
+{#    <td><form name="form1" method="post" action="">#}
+{#       <p><a href="/editschedule/{{ i.id }}">Edit</a></p>#}
+{#        <p><a href="/deleteschedule/{{ i.id }}">Delete</a></p>#}
+{#    </form>    </td>#}
+{#  </tr>#}
+{#    {% endfor %}#}
+{#</table>#}
+{#</body>#}
+{#</html>#}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>Schedule Management</title>
+  <style>
+    /* Reset default padding and margin */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    td {
+      background-color: #f9f9f9;
+    }
+
+    a {
+      text-decoration: none;
+      color: #007BFF;
+      padding: 5px 10px;
+      margin: 5px;
+      border-radius: 4px;
+      border: 1px solid #007BFF;
+    }
+
+    a:hover {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .table-header {
+      background-color: #f1f1f1;
+      font-weight: bold;
+      text-align: left;
+      padding-left: 15px;
+    }
+
+    .table-actions {
+      text-align: center;
+    }
+
+    .table-actions p {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <table>
+    <tr>
+      <th colspan="6" class="table-header">
+        <a href="/addschedule">Add Schedule</a>
+      </th>
+    </tr>
+    <tr>
+      <th>S No</th>
+      <th>Date</th>
+      <th>From Time</th>
+      <th>To Time</th>
+      <th>Actions</th>
+    </tr>
+    {% for i in data %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.date }}</td>
+      <td>{{ i.fromtime }}</td>
+      <td>{{ i.totime }}</td>
+      <td class="table-actions">
+        <p><a href="/editschedule/{{ i.id }}">Edit</a></p><br>
+        <p><a href="/deleteschedule/{{ i.id }}">Delete</a></p>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

@@ -1,0 +1,117 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form id="form1" name="form1" method="post" action="">#}
+{#  <table width="200" border="1">#}
+{#    <tr>#}
+{#      <td> S no</td>#}
+{#      <td>Date</td>#}
+{#      <td>FromTime </td>#}
+{#      <td>ToTime</td>#}
+{#    </tr>#}
+{#      {% for i in data %}#}
+{#    <tr>#}
+{#      <td>{{ forloop.counter }}</td>#}
+{#      <td>{{ i.date}}&nbsp;</td>#}
+{#      <td>{{ i.fromtime }}</td>#}
+{#      <td>{{ i.totime }}</td>#}
+{#    </tr>#}
+{#      {% endfor %}#}
+{#  </table>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>Untitled Document</title>
+
+  <!-- Internal CSS Styling -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    table {
+      width: 10%;
+      border-collapse: collapse;
+      background-color: #fff;
+      margin: 20px auto;
+      box-shadow: 0 15px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    th, td {
+      padding: 12px 150px;
+      text-align: left;
+      font-size: 14px;
+      color: #333;
+    }
+
+    th {
+      background-color: #2321ff;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #eaeaea;
+    }
+
+    td {
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
+</head>
+
+<body>
+
+  <form id="form1" name="form1" method="post" action="">
+
+
+      <table border="1">
+
+      <thead>
+        <tr>
+          <th>S No</th>
+          <th>Date</th>
+          <th>Reason</th>
+{#          <th>Time</th>#}
+          <th>Doctor</th>
+          <th>Department</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in data %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.date }}</td>
+            <td>{{ i.reason }}</td>
+{#            <td>{{ i.time }}</td>#}
+            <td>{{ i.DOCTOR.doctorname }}</td>
+            <td>{{ i.DOCTOR.department }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </form>
+</body>
+</html>

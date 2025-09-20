@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>Hospital Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+    form {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+    }
+    td {
+      padding: 10px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="file"],
+    input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    .center {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<form action="/registerpost" method="post" enctype="multipart/form-data">
+  <h2>Hospital Registration</h2>
+  <table border="0">
+    <tr>
+      <td>User Name</td>
+      <td><input type="text" name="textfield7" required /></td>
+    </tr>
+    <tr>
+      <td>Password</td>
+      <td><input type="password" name="textfield8" required minlength="6" /></td>
+    </tr>
+    <tr>
+      <td>Hospital Name</td>
+      <td><input type="text" name="textfield" required /></td>
+    </tr>
+    <tr>
+      <td>Place</td>
+      <td><input type="text" name="textfield2" required /></td>
+    </tr>
+    <tr>
+      <td>Post</td>
+      <td><input type="text" name="textfield3" required /></td>
+    </tr>
+    <tr>
+      <td>Pin</td>
+      <td><input type="text" name="textfield4" pattern="[0-9]{6}" title="Enter a 6-digit pin" required /></td>
+    </tr>
+    <tr>
+      <td>Latitude</td>
+      <td><input type="text" name="textfield10" pattern="^-?\d+(\.\d+)?$" title="Enter a valid latitude" required /></td>
+    </tr>
+    <tr>
+      <td>Longitude</td>
+      <td><input type="text" name="textfield11" pattern="^-?\d+(\.\d+)?$" title="Enter a valid longitude" required /></td>
+    </tr>
+    <tr>
+      <td>Logo</td>
+      <td><input type="file" name="file" accept="image/*" required /></td>
+    </tr>
+    <tr>
+      <td>Contact</td>
+      <td><input type="text" name="textfield5" pattern="[0-9]{10}" title="Enter 10-digit mobile number" required /></td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td><input type="email" name="textfield6" required /></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="center">
+        <input type="submit" name="Submit" value="Register" />
+      </td>
+    </tr>
+  </table>
+</form>
+
+</body>
+</html>

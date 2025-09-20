@@ -1,0 +1,142 @@
+{#<form action="" method="get"></form><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<table width="216" border="1" cellspacing="1" cellpadding="1">#}
+{##}
+{#  <tr>#}
+{#    <td width="23" scope="row">sno</td>#}
+{#    <td width="29">Date</td>#}
+{#    <td width="41">Time</td>#}
+{#    <td width="29">User</td>#}
+{#    <td width="29">Doctor</td>#}
+{#  </tr>#}
+{#    {% for i in data %}#}
+{#  <tr>#}
+{#    <th scope="row">{{ forloop.counter }}</th>#}
+{#    <td>{{ i.date }}</td>#}
+{#    <td>{{ i.time|date:'H:i' }}&nbsp;</td>#}
+{#    <td>{{ i.USER.username }}&nbsp;</td>#}
+{#    <td>{{ i.SCHEDULE.DOCTOR.doctorname }}&nbsp;</td>#}
+{#    </tr>#}
+{#    {% endfor %}#}
+{#</table>#}
+{#</body>#}
+{#</html>#}
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+<style>
+  /* Basic reset for margin and padding */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* General body styles */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    padding: 20px;
+  }
+
+  /* Table styling */
+  table {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+
+  /* Table header styling */
+  table th {
+    background-color: #2321ff;
+    color: white;
+    padding: 12px 15px;
+    text-align: center;
+    font-size: 1.1em;
+  }
+
+  /* Table data cell styling */
+  table td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 1em;
+  }
+
+  /* Table row hover effect */
+  table tr:hover td {
+    background-color: #f1f1f1;
+  }
+
+  /* Alternate row colors for readability */
+  table tr:nth-child(even) td {
+    background-color: #f9f9f9;
+  }
+
+  /* Styling the first column (sno) */
+  table th:first-child, table td:first-child {
+    width: 10%;
+  }
+
+  /* Styling the other columns */
+  table th:nth-child(2), table td:nth-child(2) {
+    width: 20%;
+  }
+
+  table th:nth-child(3), table td:nth-child(3) {
+    width: 20%;
+  }
+
+  table th:nth-child(4), table td:nth-child(4) {
+    width: 25%;
+  }
+
+  table th:nth-child(5), table td:nth-child(5) {
+    width: 25%;
+  }
+
+</style>
+</head>
+
+<body>
+  <table border="1" cellspacing="1" cellpadding="1">
+    <tr>
+      <th scope="row">Sno</th>
+      <th>Date</th>
+      <th>User</th>
+      <th>Doctor</th>
+      <th>Token no</th>
+      <th>patient name</th>
+      <th>age</th>
+      <th>place</th>
+    </tr>
+    {% for i in data %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ i.date }}</td>
+      <td>{{ i.USER.username }}</td>
+      <td>{{ i.SCHEDULE.DOCTOR.doctorname }}</td>
+        <td>{{ i.token }}</td>
+      <td>{{ i.patientname }}</td>
+      <td>{{ i.age }}</td>
+      <td>{{ i.place }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
