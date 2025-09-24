@@ -37,5 +37,5 @@ The system includes:
 - *Database:* SQLite (default) / MySQL (optional)  
 - *Frontend:* HTML, CSS, Bootstrap, JavaScript  
 - *Authentication:* Django Auth System  
-- *Other Tools:* Django ORM, Pillow for image handling  
+- *Other Tools:* Django ORM, Pillow for image handling.
 
