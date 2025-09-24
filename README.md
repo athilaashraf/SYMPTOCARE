@@ -31,4 +31,22 @@ The system includes:
 
 • *AI Disease Prediction* based on symptoms (coming soon)
 
+⚙Tech Stack
+
+Backend: Django (Python)
+
+Database: SQLite (default) / MySQL (optional)
+
+Frontend: HTML, CSS, Bootstrap, JavaScript
+
+Authentication: Django Auth System
+
+Other Tools: Django ORM, Pillow for image handling
+
+⚙️ Setup Instructions
+Clone this repository:
+Install the required packages
+Run the program
+ENJOY! :)
+
 
