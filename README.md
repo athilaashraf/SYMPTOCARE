@@ -11,7 +11,7 @@ The system includes:
 • 📅 *Appointment System* (Scheduling, booking confirmation, time slots)
 • 🤖 *Disease Prediction* (AI-based symptom analysis - in development)
 
-** 🚀 Features**
+ 🚀 Features
 
 • *Multi-level Authentication* for hospitals, doctors, and patients
 
