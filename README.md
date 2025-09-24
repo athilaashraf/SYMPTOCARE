@@ -43,10 +43,5 @@ Authentication: Django Auth System
 
 Other Tools: Django ORM, Pillow for image handling
 
-⚙️ Setup Instructions
-Clone this repository:
-Install the required packages
-Run the program
-ENJOY! :)
 
 
