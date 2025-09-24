@@ -38,4 +38,4 @@ The system includes:
 - *Frontend:* HTML, CSS, Bootstrap, JavaScript  
 - *Authentication:* Django Auth System  
 - *Other Tools:* Django ORM, Pillow for image handling  
--
+
