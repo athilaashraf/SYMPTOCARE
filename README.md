@@ -2,7 +2,7 @@
 
 Creating comprehensive hospital management solutions using Django
 
-A Django-based web application for managing hospitals, doctors, patients, and appointments.  
+A Django-based mobile application for managing hospitals, doctors, patients, and appointments.  
 Symptocare simplifies hospital operations by providing separate modules for *Hospitals, **Doctors, and **Users* to handle registration, scheduling, and bookings efficiently.
 
 ---
