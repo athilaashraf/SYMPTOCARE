@@ -1,0 +1,169 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form id="form3" name="form3" method="post" action="/editinfopost">#}
+{#<table width="200" border="1">#}
+{#  <tr>#}
+{#    <td>Disease name </td>#}
+{#    <td><label>#}
+{#      <input type="text" name="textfield" value="{{ data.diseasename }}" />#}
+{#    </label></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Description</td>#}
+{#    <td><label>#}
+{#      <input type="text" name="textfield1" value="{{ data.description }}" />#}
+{#    </label></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Causes</td>#}
+{#    <td>#}
+{#      <label>#}
+{#        <input type="text" name="textfield2" value="{{ data.causes }}" />#}
+{#        </label>#}
+{#       </td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>How to prevent </td>#}
+{#    <td>#}
+{#      <label>#}
+{#        <input type="text" name="textfield3" value="{{ data.howtoprevent }}" />#}
+{#        </label>#}
+{#   </td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td colspan="2"><div align="center">#}
+{#        <label for="Submit"></label>#}
+{#        <input type="submit" name="Submit" value="Submit" id="Submit" />#}
+{##}
+{#      </div></td>#}
+{#  </tr>#}
+{#</table>#}
+{# </form>#}
+{#</body>#}
+{##}
+{#</html>#}
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+<style>
+    /* Global Styles */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    table {
+        width: 60%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    td {
+        padding: 12px;
+        font-size: 14px;
+        color: #333;
+    }
+
+    /* Input Fields Styling */
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin: 6px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    /* Button Styling */
+    input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #2321ff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #2321ff;
+    }
+
+    /* Label Styling */
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    /* Center Alignment for Submit Button */
+    .submit-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+</head>
+
+<body>
+<h1>Update Disease Information</h1>
+<form id="form3" name="form3" method="post" action="/editinfopost">
+    <table border="1">
+        <tr>
+            <td>Disease name</td>
+            <td><label>
+                <input type="text" name="textfield" value="{{ data.diseasename }}" />
+            </label></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><label>
+                <input type="text" name="textfield1" value="{{ data.description }}" />
+            </label></td>
+        </tr>
+        <tr>
+            <td>Causes</td>
+            <td>
+                <label>
+                    <input type="text" name="textfield2" value="{{ data.causes }}" />
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>How to prevent</td>
+            <td>
+                <label>
+                    <input type="text" name="textfield3" value="{{ data.howtoprevent }}" />
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="submit-container">
+                    <input type="submit" name="Submit" value="Submit" id="Submit" />
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
