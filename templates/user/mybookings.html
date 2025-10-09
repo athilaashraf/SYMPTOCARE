@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Bookings</title>
+<style>
+body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+.container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+.nav { background: #2321ff; padding: 15px; margin: -20px -20px 20px -20px; }
+.nav a { color: white; text-decoration: none; margin-right: 20px; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+th { background: #2321ff; color: white; }
+.btn-cancel { background: #dc3545; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; border: none; cursor: pointer; }
+.status-booked { color: green; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="nav">
+    <a href="/userhome">Home</a>
+    <a href="/viewhospitals">Hospitals</a>
+    <a href="/mybookings">My Bookings</a>
+    <a href="/myprescriptions">Prescriptions</a>
+    <a href="/">Logout</a>
+  </div>
+  
+  <h2>My Appointments</h2>
+  
+  <table>
+    <tr>
+      <th>Doctor</th>
+      <th>Hospital</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Token</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+    {% for booking in bookings %}
+    <tr>
+      <td>{{ booking.SCHEDULE.DOCTOR.doctorname }}</td>
+      <td>{{ booking.SCHEDULE.DOCTOR.HOSPITAL.hospitalname }}</td>
+      <td>{{ booking.SCHEDULE.date }}</td>
+      <td>{{ booking.SCHEDULE.fromtime }} - {{ booking.SCHEDULE.totime }}</td>
+      <td>{{ booking.token }}</td>
+      <td class="status-booked">{{ booking.status }}</td>
+      <td>
+        <form method="post" action="/cancelbooking" style="display:inline;">
+          {% csrf_token %}
+          <input type="hidden" name="booking_id" value="{{ booking.id }}">
+          <button type="submit" class="btn-cancel" onclick="return confirm('Cancel this booking?')">Cancel</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+</body>
+</html>

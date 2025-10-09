@@ -21,16 +21,18 @@ def login(request):
 def login_post(request):
     username=request.POST['textfield']
     password=request.POST['textfield2']
-
     try:
         ob=login_table.objects.get(username=username,password=password)
         request.session['lid']=ob.id
+        request.session['type']=ob.type
         if ob.type == 'admin':
             return HttpResponse('''<script>alert('admin logined successfully');window.location='/adminhome'</script>''')
         elif ob.type == 'hospital':
             return HttpResponse('''<script>alert('hospital login successfully');window.location='/hospitalhome'</script>''')
         elif ob.type == 'doctor':
             return HttpResponse('''<script>alert('doctor login successfully');window.location='/doctorhome'</script>''')
+        elif ob.type == 'user':
+            return HttpResponse('''<script>alert('user login successfully');window.location='/userhome'</script>''')
         else:
             return HttpResponse('''<script>alert(invalid);window.location='/'</script>''')
     except:
@@ -38,20 +40,28 @@ def login_post(request):
 
 
 def adddiseaseinformation(request):
-    ob=department.objects.all()
-    return render(request,'admin/addinfo.html',{"val":ob})
+    # Check if doctor is logged in
+    if 'lid' not in request.session or request.session.get('type') != 'doctor':
+        return HttpResponse('''<script>alert("Please login as doctor");window.location='/'</script>''')
+    
+    ob = department.objects.all()
+    return render(request, 'doctor/addinfo.html', {"val": ob})
 
 
 def adddiseaseinformationpost(request):
-    disease=request.POST["textfield"]
-    causes=request.POST["textfield2"]
-    dep=request.POST["dep"]
-    hwtprvnt=request.POST["textfield3"]
-    ob=disease_table()
-    ob.DEPARTMENT=department.objects.get(id=dep)
-    ob.diseasename=disease
-    ob.causes=causes
-    ob.howtoprevent=hwtprvnt
+    # Check if doctor is logged in
+    if 'lid' not in request.session or request.session.get('type') != 'doctor':
+        return HttpResponse('''<script>alert("Please login as doctor");window.location='/'</script>''')
+    
+    disease = request.POST["textfield"]
+    causes = request.POST["textfield2"]
+    dep = request.POST["dep"]
+    hwtprvnt = request.POST["textfield3"]
+    ob = disease_table()
+    ob.DEPARTMENT = department.objects.get(id=dep)
+    ob.diseasename = disease
+    ob.causes = causes
+    ob.howtoprevent = hwtprvnt
     ob.save()
     return HttpResponse('''<script>alert("added");window.location='/managediseaseinfo'</script>''')
 
@@ -61,35 +71,56 @@ def adminhome(request):
 
 
 def managediseaseinfo(request):
+    # Check if doctor is logged in
+    if 'lid' not in request.session or request.session.get('type') != 'doctor':
+        return HttpResponse('''<script>alert("Please login as doctor");window.location='/'</script>''')
+    
     a = disease_table.objects.all()
-    return render(request,'admin/mngdiseaseinfo.html',{'data':a})
+    return render(request, 'doctor/mngdiseaseinfo.html', {'data': a})
 
 
 def searchdisease(request):
-    diseasename=request.POST['textfield']
-    ob=disease_table.objects.filter(diseasename__contains=diseasename)
-    return render(request,'admin/mngdiseaseinfo.html.',{'data':ob,'diseasename':diseasename})
+    # Check if doctor is logged in
+    if 'lid' not in request.session or request.session.get('type') != 'doctor':
+        return HttpResponse('''<script>alert("Please login as doctor");window.location='/'</script>''')
+    
+    diseasename = request.POST['textfield']
+    ob = disease_table.objects.filter(diseasename__contains=diseasename)
+    return render(request, 'doctor/mngdiseaseinfo.html', {'data': ob, 'diseasename': diseasename})
 
 
-def editinfo(request,id):
-    request.session["id"]=id
-    ob=disease_table.objects.get(id=id)
-    return render(request,'admin/editinfo.html',{'data':ob})
+def editinfo(request, id):
+    # Check if doctor is logged in
+    if 'lid' not in request.session or request.session.get('type') != 'doctor':
+        return HttpResponse('''<script>alert("Please login as doctor");window.location='/'</script>''')
+    
+    request.session["id"] = id
+    ob = disease_table.objects.get(id=id)
+    ob2 = department.objects.all()
+    return render(request, 'doctor/editinfo.html', {'data': ob, 'val': ob2})
 
 
 def editinfopost(request):
-    ob=disease_table.objects.get(id=request.session["id"])
-    ob.diseasename=request.POST["textfield"]
-    ob.description=request.POST["textfield1"]
-    ob.causes=request.POST["textfield2"]
-    ob.howtoprevent=request.POST["textfield3"]
+    # Check if doctor is logged in
+    if 'lid' not in request.session or request.session.get('type') != 'doctor':
+        return HttpResponse('''<script>alert("Please login as doctor");window.location='/'</script>''')
+    
+    ob = disease_table.objects.get(id=request.session["id"])
+    ob.diseasename = request.POST["textfield"]
+    ob.causes = request.POST["textfield2"]
+    ob.howtoprevent = request.POST["textfield3"]
+    if "dep" in request.POST:
+        ob.DEPARTMENT = department.objects.get(id=request.POST["dep"])
     ob.save()
     return HttpResponse('''<script>alert("edited successfully");window.location='/managediseaseinfo'</script>''')
 
-def deletedisease(request,id):
-    request.session['did']=id
-    ob=disease_table.objects.get(id=id)
-    ob.type="disease"
+def deletedisease(request, id):
+    # Check if doctor is logged in
+    if 'lid' not in request.session or request.session.get('type') != 'doctor':
+        return HttpResponse('''<script>alert("Please login as doctor");window.location='/'</script>''')
+    
+    request.session['did'] = id
+    ob = disease_table.objects.get(id=id)
     ob.delete()
     return HttpResponse('''<script>alert("deleted");window.location='/managediseaseinfo'</script>''')
 
@@ -401,6 +432,7 @@ def adddoctor(request):
 def adddoctorpost(request):
     Username=request.POST["textfield"]
     Password=request.POST["textfield2"]
+    registration_number=request.POST["textfield_reg"]
     doctorname=request.POST["textfield3"]
     department_id=request.POST["textfield4"]  # This is now department ID
     qualification=request.POST["textfield5"]
@@ -422,6 +454,7 @@ def adddoctorpost(request):
     ob=doctor_table()
     ob.LOGIN=ob1
     ob.HOSPITAL=hospital_table.objects.get(LOGIN=request.session["lid"])
+    ob.registration_number=registration_number
     ob.doctorname=doctorname
     ob.department=department_name  # Store department name
     ob.qualification=qualification
@@ -1317,3 +1350,154 @@ def viewdoctorleavu(request):
 
 
     return JsonResponse({"status": "ok", "data": mdata})
+
+
+
+
+def userhome(request):
+    if 'lid' not in request.session or request.session.get('type') != 'user':
+        return HttpResponse('''<script>alert("Please login as user");window.location='/'</script>''')
+    return render(request, 'user/userhome.html')
+
+
+def symptom_checker(request):
+    return render(request, 'user/symptomchecker.html')
+
+
+
+
+def viewhospitals(request):
+    if 'lid' not in request.session or request.session.get('type') != 'user':
+        return HttpResponse('''<script>alert("Please login as user");window.location='/'</script>''')
+    hospitals = hospital_table.objects.all()
+    return render(request, 'user/viewhospitals.html', {'hospitals': hospitals})
+
+
+
+def viewdoctorsbyh(request, id):
+    if 'lid' not in request.session or request.session.get('type') != 'user':
+        return HttpResponse('''<script>alert("Please login as user");window.location='/'</script>''')
+    doctors = doctor_table.objects.filter(HOSPITAL__id=id)
+    hospital = hospital_table.objects.get(id=id)
+    return render(request, 'user/viewdoctors.html', {'doctors': doctors, 'hospital': hospital})
+
+
+def bookappointment(request, id):
+    if 'lid' not in request.session or request.session.get('type') != 'user':
+        return HttpResponse('''<script>alert("Please login");window.location='/'</script>''')
+    from datetime import datetime, timedelta
+    doctor = doctor_table.objects.get(id=id)
+    today = datetime.today().date()
+    threshold = today + timedelta(days=1)
+    schedules = schedule_table.objects.filter(DOCTOR__id=id, date__gte=threshold)
+    return render(request, 'user/bookappointment.html', {'doctor': doctor, 'schedules': schedules})
+
+def confirmbooking(request):
+    if 'lid' not in request.session:
+        return HttpResponse('''<script>alert("Please login");window.location='/'</script>''')
+    
+    sid = request.POST['schedule_id']
+    pname = request.POST['patientname']
+    age = request.POST['age']
+    place = request.POST['place']
+    token = request.POST['token']
+    
+    from datetime import datetime
+    date = datetime.now().date()
+    time = datetime.now().time()
+    
+    if booking_table.objects.filter(USER__LOGIN_id=request.session['lid'], SCHEDULE_id=sid, date=date).exists():
+        return HttpResponse('''<script>alert("Already booked today");window.location='/mybookings'</script>''')
+    
+    if booking_table.objects.filter(token=token, date=date, SCHEDULE_id=sid).exists():
+        return HttpResponse('''<script>alert("Token taken");history.back()</script>''')
+    
+    b = booking_table()
+    b.SCHEDULE = schedule_table.objects.get(id=sid)
+    b.USER = user_table.objects.get(LOGIN_id=request.session['lid'])
+    b.status = 'booked'
+    b.date = date
+    b.time = time
+    b.patientname = pname
+    b.age = age
+    b.place = place
+    b.token = token
+    b.save()
+    
+    return HttpResponse('''<script>alert("Booking successful");window.location='/mybookings'</script>''')
+
+
+
+def mybookings(request):
+    if 'lid' not in request.session or request.session.get('type') != 'user':
+        return HttpResponse('''<script>alert("Please login");window.location='/'</script>''')
+    bookings = booking_table.objects.filter(USER__LOGIN_id=request.session['lid']).order_by('-date')
+    return render(request, 'user/mybookings.html', {'bookings': bookings})
+
+def cancelbooking(request):
+    if 'lid' not in request.session:
+        return HttpResponse('''<script>alert("Please login");window.location='/'</script>''')
+    
+    bid = request.POST['booking_id']
+    booking = booking_table.objects.get(id=bid)
+    booking.status = 'cancelled'
+    booking.save()
+    
+    return HttpResponse('''<script>alert("Booking cancelled");window.location='/mybookings'</script>''')
+
+
+
+def myprescriptions(request):
+    if 'lid' not in request.session or request.session.get('type') != 'user':
+        return HttpResponse('''<script>alert("Please login");window.location='/'</script>''')
+    prescriptions = prescription_table.objects.filter(BOOKING__USER__LOGIN_id=request.session['lid']).order_by('-id')
+    return render(request, 'user/myprescriptions.html', {'prescriptions': prescriptions})
+
+
+
+def userregister(request):
+    return render(request, 'user/userregister.html')
+
+def userregisterpost(request):
+    name = request.POST['name']
+    age = request.POST['age']
+    gender = request.POST['gender']
+    phone = request.POST['phone']
+    email = request.POST['email']
+    place = request.POST['place']
+    post = request.POST['post']
+    pin = request.POST['pin']
+    image = request.FILES['image']
+    username = request.POST['username']
+    password = request.POST['password']
+    
+    # Check if username exists
+    if login_table.objects.filter(username=username).exists():
+        return HttpResponse('''<script>alert("Username already exists");history.back()</script>''')
+    
+    from django.core.files.storage import FileSystemStorage
+    fs = FileSystemStorage()
+    fp = fs.save(image.name, image)
+    
+    # Create login
+    a = login_table()
+    a.username = username
+    a.password = password
+    a.type = 'user'
+    a.save()
+    
+    # Create user
+    b = user_table()
+    b.username = name
+    b.place = place
+    b.pin = pin
+    b.post = post
+    b.age = age
+    b.gender = gender
+    b.phone = phone
+    b.image = fp
+    b.email = email
+    b.LOGIN = a
+    b.save()
+    
+    return HttpResponse('''<script>alert("Registration successful! Please login");window.location='/'</script>''')

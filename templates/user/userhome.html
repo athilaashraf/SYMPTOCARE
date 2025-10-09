@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Dashboard</title>
+<style>
+body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+.container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+.nav { background: #2321ff; padding: 15px; margin: -20px -20px 20px -20px; border-radius: 8px 8px 0 0; }
+.nav a { color: white; text-decoration: none; margin-right: 20px; }
+.nav a:hover { text-decoration: underline; }
+h1 { color: #333; }
+.card { border: 1px solid #ddd; padding: 20px; margin: 10px 0; border-radius: 5px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="nav">
+    <a href="/userhome">Home</a>
+    <a href="/viewhospitals">Hospitals</a>
+    <a href="/mybookings">My Bookings</a>
+    <a href="/myprescriptions">Prescriptions</a>
+    <a href="/symptom_checker">Disease Prediction</a>
+    <a href="/">Logout</a>
+  </div>
+  
+  <h1>Welcome, User!</h1>
+  
+  <div class="card">
+    <h3>Find Doctors & Book Appointments</h3>
+    <p>Browse hospitals and book appointments with doctors</p>
+    <a href="/viewhospitals">View Hospitals</a>
+  </div>
+  
+  <div class="card">
+    <h3>My Bookings</h3>
+    <p>View and manage your appointments</p>
+    <a href="/mybookings">View Bookings</a>
+  </div>
+  
+  <div class="card">
+    <h3>🩺 Disease Prediction</h3>
+    <p>Check your symptoms and get possible diagnosis using AI</p>
+    <a href="/symptom_checker">Check Symptoms</a>
+  </div>
+</div>
+</body>
+</html>

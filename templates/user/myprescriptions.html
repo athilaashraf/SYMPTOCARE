@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Prescriptions</title>
+<style>
+body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+.container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+.nav { background: #2321ff; padding: 15px; margin: -20px -20px 20px -20px; }
+.nav a { color: white; text-decoration: none; margin-right: 20px; }
+.prescription { border: 1px solid #ddd; padding: 15px; margin: 15px 0; border-radius: 5px; }
+.prescription h3 { margin-top: 0; color: #2321ff; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="nav">
+    <a href="/userhome">Home</a>
+    <a href="/viewhospitals">Hospitals</a>
+    <a href="/mybookings">My Bookings</a>
+    <a href="/myprescriptions">Prescriptions</a>
+    <a href="/">Logout</a>
+  </div>
+  
+  <h2>My Prescriptions</h2>
+  
+  {% for p in prescriptions %}
+  <div class="prescription">
+    <h3>Dr. {{ p.BOOKING.SCHEDULE.DOCTOR.doctorname }}</h3>
+    <p><strong>Date:</strong> {{ p.BOOKING.date }}</p>
+    <p><strong>Patient:</strong> {{ p.BOOKING.patientname }}</p>
+    <p><strong>Prescription:</strong> {{ p.prescription }}</p>
+    <p><strong>Medicine:</strong> {{ p.medicine }}</p>
+    <p><strong>Instructions:</strong> {{ p.instruction }}</p>
+    <p><strong>Duration:</strong> {{ p.duration }}</p>
+  </div>
+  {% endfor %}
+  
+  {% if not prescriptions %}
+  <p>No prescriptions found.</p>
+  {% endif %}
+</div>
+</body>
+</html>

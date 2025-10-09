@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hospitals</title>
+<style>
+body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+.container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+.nav { background: #2321ff; padding: 15px; margin: -20px -20px 20px -20px; }
+.nav a { color: white; text-decoration: none; margin-right: 20px; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+th { background: #2321ff; color: white; }
+img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
+.btn { background: #2321ff; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="nav">
+    <a href="/userhome">Home</a>
+    <a href="/viewhospitals">Hospitals</a>
+    <a href="/mybookings">My Bookings</a>
+    <a href="/myprescriptions">Prescriptions</a>
+    <a href="/">Logout</a>
+  </div>
+  
+  <h2>Available Hospitals</h2>
+  
+  <table>
+    <tr>
+      <th>Logo</th>
+      <th>Hospital Name</th>
+      <th>Place</th>
+      <th>Contact</th>
+      <th>Email</th>
+      <th>Action</th>
+    </tr>
+    {% for hospital in hospitals %}
+    <tr>
+      <td><img src="{{ hospital.logo.url }}" alt="logo"></td>
+      <td>{{ hospital.hospitalname }}</td>
+      <td>{{ hospital.place }}, {{ hospital.post }}</td>
+      <td>{{ hospital.contact }}</td>
+      <td>{{ hospital.email }}</td>
+      <td><a href="/viewdoctorsbyh/{{ hospital.id }}" class="btn">View Doctors</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+</body>
+</html>

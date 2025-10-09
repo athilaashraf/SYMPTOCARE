@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Book Appointment</title>
+<style>
+body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+.container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+.nav { background: #2321ff; padding: 15px; margin: -20px -20px 20px -20px; }
+.nav a { color: white; text-decoration: none; margin-right: 20px; }
+.schedule { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px; }
+form { margin-top: 10px; }
+input { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ddd; border-radius: 4px; }
+button { background: #2321ff; color: white; padding: 10px 25px; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="nav">
+    <a href="/userhome">Home</a>
+    <a href="/viewhospitals">Hospitals</a>
+    <a href="/mybookings">My Bookings</a>
+    <a href="/">Logout</a>
+  </div>
+  
+  <h2>Book Appointment - {{ doctor.doctorname }}</h2>
+  <p><strong>Department:</strong> {{ doctor.department }}</p>
+  
+  {% for schedule in schedules %}
+  <div class="schedule">
+    <strong>Date:</strong> {{ schedule.date }} | <strong>Time:</strong> {{ schedule.fromtime }} - {{ schedule.totime }}
+    <form method="post" action="/confirmbooking">
+      {% csrf_token %}
+      <input type="hidden" name="schedule_id" value="{{ schedule.id }}">
+      <input type="text" name="patientname" placeholder="Patient Name" required>
+      <input type="number" name="age" placeholder="Age" required>
+      <input type="text" name="place" placeholder="Place" required>
+      <input type="number" name="token" placeholder="Token (1-50)" min="1" max="50" required>
+      <button type="submit">Book</button>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+</body>
+</html>
