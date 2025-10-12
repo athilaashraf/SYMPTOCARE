@@ -97,6 +97,7 @@
 
     var username = form["textfield"].value.trim();
     var password = form["textfield2"].value.trim();
+    var registration = form["textfield_reg"].value.trim();
     var doctorname = form["textfield3"].value.trim();
     var department = form["textfield4"].value.trim();
     var qualification = form["textfield5"].value.trim();
@@ -112,6 +113,11 @@
 
     if (password === "") {
       alert("Please enter the Password");
+      return false;
+    }
+
+    if (registration === "") {
+      alert("Please enter the Registration Number");
       return false;
     }
 
@@ -172,6 +178,10 @@
       <tr>
         <td>Password</td>
         <td><input type="password" name="textfield2" required /></td>
+      </tr>
+      <tr>
+        <td>Registration Number</td>
+        <td><input type="text" name="textfield_reg" required /></td>
       </tr>
       <tr>
         <td>Doctor Name</td>

@@ -43,6 +43,21 @@ urlpatterns = [
     path('searchdisease',views.searchdisease),
     path('updateprofile',views.updateprofile),
     path('predict_symptoms',views.predict_symptoms),
+    path('userhome', views.userhome, name='userhome'),
+    path('symptom_checker', views.symptom_checker, name='symptom_checker'),
+    path('viewhospitals', views.viewhospitals, name='viewhospitals'),
+    path('viewdoctorsbyh/<id>', views.viewdoctorsbyh, name='viewdoctorsbyh'),
+    path('bookappointment/<id>', views.bookappointment, name='bookappointment'),
+    path('confirmbooking', views.confirmbooking, name='confirmbooking'),
+    path('mybookings', views.mybookings, name='mybookings'),
+    path('cancelbooking', views.cancelbooking, name='cancelbooking'),
+    path('myprescriptions', views.myprescriptions, name='myprescriptions'),
+    path('userregister', views.userregister, name='userregister'),
+    path('userregisterpost', views.userregisterpost, name='userregisterpost'),
+    path('adminviewalldoctors', views.adminviewalldoctors, name='adminviewalldoctors'),
+    path('recommendatedviewdoctoruser', views.recommendatedviewdoctoruser, name='recommendatedviewdoctoruser'),
+
+
 
 
 
@@ -112,13 +127,13 @@ urlpatterns = [
     path('/logincode',views.logincode),
     path('viewhospitaluser',views.viewhospitaluser),
     path('viewdoctoruser',views.viewdoctoruser),
-    path('/viewscheduleuser',views.viewscheduleuser),
+    path('viewscheduleuser',views.viewscheduleuser),
     path('viewbookinguser',views.viewbookinguser),
     path('viewprescriptionuser',views.viewprescriptionuser),
     path('androchangepwd',views.androchangepwd),
     # path('userviewprofile',views.userviewprofile),
     path('updateprofile',views.updateprofile),
-    path('/send_rating',views.send_rating),
+    path('send_rating',views.send_rating),
     path('updateprofile',views.updateprofile),
     path('recommendatedviewdoctoruser',views.recommendatedviewdoctoruser),
     path('viewdoctorleavu',views.viewdoctorleavu),

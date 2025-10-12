@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Schedule - Symptocare</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .doctor-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .doctor-info h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .schedule-grid {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .schedule-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .schedule-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .schedule-date {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .schedule-time {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .book-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+        
+        .no-schedules {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 Doctor Schedule</h1>
+            <p>Available appointment slots</p>
+        </div>
+        
+        <div class="content">
+            <a href="javascript:history.back()" class="back-btn">← Back</a>
+            
+            <div class="doctor-info">
+                <h2>Dr. {{ doctor.doctorname }}</h2>
+                <p><strong>Department:</strong> {{ doctor.department }}</p>
+                <p><strong>Qualification:</strong> {{ doctor.qualification }}</p>
+            </div>
+            
+            {% if schedules %}
+                <div class="schedule-grid">
+                    {% for schedule in schedules %}
+                    <div class="schedule-card">
+                        <div class="schedule-date">📆 {{ schedule.date|date:"F d, Y" }}</div>
+                        <div class="schedule-time">🕐 {{ schedule.fromtime }} - {{ schedule.totime }}</div>
+                        <button class="book-btn" onclick="bookSchedule({{ schedule.id }})">Book This Slot</button>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-schedules">
+                    <h3>No upcoming schedules available</h3>
+                    <p>Please check back later or contact the hospital.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function bookSchedule(scheduleId) {
+            window.location.href = '/bookappointment/{{ doctor.id }}';
+        }
+    </script>
+</body>
+</html>

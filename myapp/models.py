@@ -21,6 +21,7 @@ class hospital_table(models.Model):
 class doctor_table(models.Model):
     HOSPITAL=models.ForeignKey(hospital_table,on_delete=models.CASCADE)
     LOGIN = models.ForeignKey(login_table, on_delete=models.CASCADE)
+    registration_number=models.CharField(max_length=100, unique=True)
     doctorname=models.CharField(max_length=100)
     department=models.CharField(max_length=100)
     qualification=models.CharField(max_length=100)

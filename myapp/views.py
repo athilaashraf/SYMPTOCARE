@@ -889,37 +889,25 @@ from django.http import JsonResponse
 
 def viewscheduleuser(request):
     try:
-        # Fetch doctor ID from POST data
-        did = request.POST['docid']
-
-        # Get the current date and calculate the "day before" threshold
+        # Get doctor ID from GET parameter
+        did = request.GET['did']
+        
+        # Get doctor object
+        doctor = doctor_table.objects.get(id=did)
+        
+        # Get current date and calculate threshold
         today = datetime.today().date()
         threshold_date = today + timedelta(days=1)
-
-        # Query schedules for the doctor where the date is at least one day away
-        ob = schedule_table.objects.filter(DOCTOR__id=did, date__gte=threshold_date)
-
-        # Prepare data for response
-        mdata = []
-        for i in ob:
-            data = {
-                'date': str(i.date),
-                'fromtime': str(i.fromtime),
-                'totime': str(i.totime),
-                'id': i.id
-            }
-            mdata.append(data)
-
-        # Debugging print statement (optional)
-        print(mdata, "Filtered Schedule Data")
-
-        # Return the filtered schedule as JSON response
-        return JsonResponse({"status": "ok", "data": mdata})
-
+        
+        # Query schedules for the doctor
+        schedules = schedule_table.objects.filter(DOCTOR__id=did, date__gte=threshold_date).order_by('date', 'fromtime')
+        
+        # Render HTML template
+        return render(request, 'user/viewschedule.html', {'doctor': doctor, 'schedules': schedules})
+        
     except Exception as e:
-        # Handle exceptions gracefully and return an error response
         print(f"Error: {e}")
-        return JsonResponse({"status": "error", "message": str(e)})
+        return HttpResponse(f"Error: {str(e)}")
 
 
 #
@@ -1351,6 +1339,12 @@ def viewdoctorleavu(request):
 
     return JsonResponse({"status": "ok", "data": mdata})
 
+
+
+
+def adminviewalldoctors(request):
+    data = doctor_table.objects.all()
+    return render(request, 'admin/managedoctors.html', {'data': data})
 
 
 
