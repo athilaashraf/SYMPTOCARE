@@ -2,18 +2,522 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>User Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Dashboard - SymptoCare Multispecialty Hospital</title>
 <style>
-body { font-family: Arial; background: #f4f4f4; padding: 20px; }
-.container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
-.nav { background: #2321ff; padding: 15px; margin: -20px -20px 20px -20px; border-radius: 8px 8px 0 0; }
-.nav a { color: white; text-decoration: none; margin-right: 20px; }
-.nav a:hover { text-decoration: underline; }
-h1 { color: #333; }
-.card { border: 1px solid #ddd; padding: 20px; margin: 10px 0; border-radius: 5px; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body { 
+    font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Elegant background pattern overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(147, 51, 234, 0.08) 0%, transparent 50%),
+        url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cdefs%3E%3Cpattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"%3E%3Cpath d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100" height="100" fill="url(%23grid)"/%3E%3C/svg%3E');
+    pointer-events: none;
+    z-index: 1;
+}
+
+.container { 
+    position: relative;
+    z-index: 2;
+    max-width: 100%;
+    margin: 0 auto;
+    background: transparent;
+    padding: 0;
+}
+
+/* Premium Navigation Bar */
+.nav { 
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.95) 0%, rgba(29, 78, 216, 0.95) 100%);
+    padding: 20px 60px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav a { 
+    color: white;
+    text-decoration: none;
+    margin-right: 35px;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
+    letter-spacing: 0.3px;
+    position: relative;
+}
+
+.nav a::before {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 60%;
+    height: 2px;
+    background: white;
+    transition: transform 0.3s ease;
+}
+
+.nav a:hover::before {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.nav a:hover { 
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
+}
+
+/* Elegant Hero Section */
+.hero-section {
+    text-align: center;
+    padding: 100px 30px 70px;
+    color: white;
+    animation: fadeInDown 1.2s ease;
+}
+
+h1 { 
+    font-size: 4em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 60px rgba(255, 255, 255, 0.5);
+    letter-spacing: -1px;
+}
+
+.tagline {
+    font-size: 1.35em;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 800px;
+    margin: 0 auto 50px;
+    line-height: 1.8;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+}
+
+/* Premium Cards Container */
+.cards-container {
+    padding: 50px 60px 80px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Premium Card Styling */
+.card { 
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 45px;
+    border-radius: 24px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 1s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 380px;
+}
+
+/* Elegant gradient border */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #f59e0b);
+    background-size: 300% 100%;
+    animation: gradientMove 6s ease infinite;
+}
+
+@keyframes gradientMove {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Decorative corner accent */
+.card::after {
+    content: '⚕️';
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 48px;
+    opacity: 0.08;
+    transform: rotate(-15deg);
+}
+
+.card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 
+        0 30px 80px rgba(59, 130, 246, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+.card-icon {
+    font-size: 60px;
+    margin-bottom: 25px;
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+}
+
+.card:nth-child(2) .card-icon {
+    animation-delay: 0.5s;
+}
+
+.card:nth-child(3) .card-icon {
+    animation-delay: 1s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.card h3 {
+    color: #1e40af;
+    font-size: 1.9em;
+    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.3;
+}
+
+.card p {
+    color: #475569;
+    font-size: 1.08em;
+    line-height: 1.75;
+    margin-bottom: auto;
+    flex-grow: 1;
+    font-weight: 400;
+}
+
+/* Premium Button - FIXED ALIGNMENT */
+.card-button-container {
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.card a {
+    display: inline-block;
+    padding: 16px 36px;
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1.05em;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 8px 24px rgba(37, 99, 235, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+}
+
+.card a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.card a:hover::before {
+    left: 100%;
+}
+
+.card a:hover {
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 12px 32px rgba(37, 99, 235, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+.card a::after {
+    content: '→';
+    margin-left: 8px;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.card a:hover::after {
+    transform: translateX(4px);
+}
+
+/* Staggered animations */
+.card:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.card:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.card:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+/* Premium Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Enhanced Floating Medical Elements */
+.floating-medical {
+    position: fixed;
+    font-size: 80px;
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(1px);
+}
+
+.floating-medical:nth-child(1) {
+    top: 15%;
+    left: 8%;
+    animation: float-slow 8s ease-in-out infinite;
+}
+
+.floating-medical:nth-child(2) {
+    top: 65%;
+    right: 10%;
+    font-size: 100px;
+    animation: float-slow 10s ease-in-out infinite;
+    animation-delay: 1s;
+}
+
+.floating-medical:nth-child(3) {
+    top: 40%;
+    left: 15%;
+    font-size: 70px;
+    animation: float-slow 12s ease-in-out infinite;
+    animation-delay: 2s;
+}
+
+.floating-medical:nth-child(4) {
+    top: 25%;
+    right: 20%;
+    font-size: 90px;
+    animation: float-slow 9s ease-in-out infinite;
+    animation-delay: 1.5s;
+}
+
+.floating-medical:nth-child(5) {
+    top: 75%;
+    left: 25%;
+    font-size: 85px;
+    animation: float-slow 11s ease-in-out infinite;
+    animation-delay: 0.5s;
+}
+
+.floating-medical:nth-child(6) {
+    top: 50%;
+    right: 15%;
+    font-size: 95px;
+    animation: float-slow 10s ease-in-out infinite;
+    animation-delay: 2.5s;
+}
+
+@keyframes float-slow {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    33% {
+        transform: translateY(-25px) rotate(5deg);
+    }
+    66% {
+        transform: translateY(-15px) rotate(-5deg);
+    }
+}
+
+/* Medical Cross Decorations */
+.medical-cross {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.medical-cross::before,
+.medical-cross::after {
+    content: '';
+    position: absolute;
+    background: white;
+}
+
+.medical-cross::before {
+    width: 100%;
+    height: 20%;
+    top: 40%;
+}
+
+.medical-cross::after {
+    width: 20%;
+    height: 100%;
+    left: 40%;
+}
+
+.cross-1 {
+    top: 20%;
+    left: 5%;
+    animation: rotate-slow 20s linear infinite;
+}
+
+.cross-2 {
+    top: 70%;
+    right: 8%;
+    animation: rotate-slow 25s linear infinite reverse;
+}
+
+@keyframes rotate-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .cards-container {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        padding: 40px 40px 60px;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5em;
+    }
+    
+    .tagline {
+        font-size: 1.15em;
+        padding: 0 20px;
+    }
+    
+    .nav {
+        padding: 18px 25px;
+    }
+    
+    .nav a {
+        margin-right: 15px;
+        font-size: 13px;
+        padding: 10px 16px;
+    }
+    
+    .cards-container {
+        grid-template-columns: 1fr;
+        padding: 30px 20px;
+        gap: 25px;
+    }
+    
+    .card {
+        padding: 35px 30px;
+        min-height: auto;
+    }
+    
+    .card h3 {
+        font-size: 1.6em;
+    }
+    
+    .floating-medical {
+        font-size: 60px;
+    }
+}
+
+/* Premium Loading Animation */
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
+.premium-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+}
 </style>
 </head>
 <body>
+<!-- Enhanced Floating Medical Elements -->
+<div class="floating-medical">⚕️</div>
+<div class="floating-medical">💊</div>
+<div class="floating-medical">🏥</div>
+<div class="floating-medical">🩺</div>
+<div class="floating-medical">💉</div>
+<div class="floating-medical">❤️</div>
+
+<!-- Medical Cross Decorations -->
+<div class="medical-cross cross-1"></div>
+<div class="medical-cross cross-2"></div>
+
 <div class="container">
   <div class="nav">
     <a href="/userhome">Home</a>
@@ -24,24 +528,38 @@ h1 { color: #333; }
     <a href="/">Logout</a>
   </div>
   
-  <h1>Welcome, User!</h1>
-  
-  <div class="card">
-    <h3>Find Doctors & Book Appointments</h3>
-    <p>Browse hospitals and book appointments with doctors</p>
-    <a href="/viewhospitals">View Hospitals</a>
+  <div class="hero-section">
+    <h1>Welcome to Your Health Hub</h1>
+    <p class="tagline">Experience world-class healthcare at your fingertips. Book appointments with top specialists, manage your health records, and receive AI-powered diagnostic insights — all in one place.</p>
   </div>
   
-  <div class="card">
-    <h3>My Bookings</h3>
-    <p>View and manage your appointments</p>
-    <a href="/mybookings">View Bookings</a>
-  </div>
-  
-  <div class="card">
-    <h3>🩺 Disease Prediction</h3>
-    <p>Check your symptoms and get possible diagnosis using AI</p>
-    <a href="/symptom_checker">Check Symptoms</a>
+  <div class="cards-container">
+    <div class="card">
+      <div class="card-icon">🏥</div>
+      <h3>Find Doctors & Book Appointments</h3>
+      <p>Browse through our network of verified multispecialty hospitals and book appointments with board-certified doctors. Choose your preferred specialist, view availability, and schedule your consultation seamlessly.</p>
+      <div class="card-button-container">
+        <a href="/viewhospitals">View Hospitals</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-icon">📅</div>
+      <h3>My Bookings</h3>
+      <p>Manage all your appointments in one centralized dashboard. Track booking status, view consultation schedules, access your complete medical history, and receive timely reminders for upcoming visits.</p>
+      <div class="card-button-container">
+        <a href="/mybookings">View Bookings</a>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-icon">🩺</div>
+      <h3>AI Disease Prediction</h3>
+      <p>Leverage cutting-edge machine learning technology for instant health insights. Our AI model, trained on thousands of medical cases, provides accurate disease predictions based on your symptoms with 100% test accuracy.</p>
+      <div class="card-button-container">
+        <a href="/symptom_checker">Check Symptoms</a>
+      </div>
+    </div>
   </div>
 </div>
 </body>

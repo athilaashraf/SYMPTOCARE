@@ -7,12 +7,21 @@ from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse
 from django.shortcuts import HttpResponse
 from django.shortcuts import render
+from .pred import Disease
 
 # Create your views here.
 
 
 from myapp.models import *
 from myapp.myknn import prep
+
+# Initialize ML prediction model (load once for performance)
+try:
+       disease_predictor = Disease()
+       print("✅ Disease prediction model loaded successfully!")
+except Exception as e:
+       print(f"❌ Error loading disease model: {e}")
+       disease_predictor = None
 
 
 def login(request):
@@ -434,12 +443,16 @@ def adddoctorpost(request):
     Password=request.POST["textfield2"]
     registration_number=request.POST["textfield_reg"]
     doctorname=request.POST["textfield3"]
-    department_id=request.POST["textfield4"]  # This is now department ID
+    department_id=request.POST["textfield4"]
     qualification=request.POST["textfield5"]
     image=request.FILES["file"]
     place = request.POST["textfield7"]
     pin = request.POST["textfield8"]
     post = request.POST["textfield9"]
+
+    # CHECK IF REGISTRATION NUMBER ALREADY EXISTS
+    if doctor_table.objects.filter(registration_number=registration_number).exists():
+        return HttpResponse('''<script>alert("Registration number already exists! Please use a unique number.");history.back()</script>''')
 
     # Get department name from ID
     dept = department.objects.get(id=department_id)
@@ -456,14 +469,14 @@ def adddoctorpost(request):
     ob.HOSPITAL=hospital_table.objects.get(LOGIN=request.session["lid"])
     ob.registration_number=registration_number
     ob.doctorname=doctorname
-    ob.department=department_name  # Store department name
+    ob.department=department_name
     ob.qualification=qualification
     ob.image=image
     ob.place=place
     ob.pin=pin
     ob.post=post
     ob.save()
-    return HttpResponse('''<script>alert("added");window.location='/managedoctors'</script>''')
+    return HttpResponse('''<script>alert("Doctor added successfully");window.location='/managedoctors'</script>''')
 
 
 
@@ -1208,67 +1221,99 @@ def send_rating(request):
 
 
 
-def predict_symptoms(requsest):
-    sym=requsest.POST['symptoms'].split("#")
-    syms = sym
-    print("---", sym)
-    symrow = []
-    for i in syms:
-
-        if i != "":
-            symrow.append(i)
-
-    print(symrow)
-    symrow = ",".join(symrow)
-    print(symrow)
-    symrow = "'" + symrow + "'"
-    symrow = symrow.replace(",", "','")
-
-    con = pymysql.connect(host='localhost', user='root', password='123456789', port=3306, db='symptocare')
-    cmd = con.cursor()
-    # qry = "SELECT DISTINCT `disease_id_id` FROM `doctor_app_symptoms` WHERE `symptom` IN(" + symrow + ")"
-    qry = "SELECT DISTINCT `DISEASE_id` FROM `myapp_symptom_table` WHERE `symptom` IN(" + symrow + ")"
-    cmd.execute(qry)
-    resss = cmd.fetchall()
-
-    distdi = []
-    for i in resss:
-        print(i)
-        distdi.append(str(i[0]))
-
-    distdi = ','.join(distdi)
-
+def predict_symptoms(request):
+    """
+    Predict disease based on symptoms using RandomForest model
+    """
     try:
-        cmd.execute(
-            "select distinct symptom from myapp_symptom_table WHERE `DISEASE_id` IN(" + distdi + ") order by symptom")
-    except Exception as e:
-        print(e)
-        return JsonResponse({"status": "failed"})
-    s = cmd.fetchall()
-    print(s)
-    dsym = []
-    for i in s:
-        dsym.append(i[0])
-    row = []
-    for w in dsym:
-        if w in syms:
-            row.append(1)
+        # Check if model is loaded
+        if disease_predictor is None:
+            return JsonResponse({
+                "status": "error",
+                "message": "Prediction model not loaded"
+            })
+        
+        # Get symptoms from POST request
+        symptoms = request.POST.get('symptoms', '').split('#')
+        
+        # Filter out empty strings and clean up
+        symptom_list = [s.strip() for s in symptoms if s.strip()]
+        
+        if not symptom_list:
+            return JsonResponse({
+                "status": "error",
+                "message": "No symptoms provided"
+            })
+        
+        print(f"📋 Received symptoms: {symptom_list}")
+        
+        # Format symptoms for pred.py (comma-separated, Title Case)
+        symptoms_string = ",".join(symptom_list)
+        
+        # Use pred.py's Disease class for prediction
+        predicted_disease = disease_predictor.predictDisease(symptoms_string)
+        
+        print(f"🎯 Predicted disease: {predicted_disease}")
+        
+        # Query database for disease details
+        con = pymysql.connect(
+            host='localhost',
+            user='root',
+            password='123456789',
+            port=3306,
+            db='symptocare'
+        )
+        cmd = con.cursor()
+        
+        # Use parameterized query (secure against SQL injection)
+        qry = """
+            SELECT id, diseasename, causes, howtoprevent 
+            FROM myapp_disease_table 
+            WHERE diseasename = %s
+        """
+        cmd.execute(qry, (predicted_disease,))
+        result = cmd.fetchone()
+        
+        con.close()
+        
+        if result:
+            disease_id, disease_name, causes, prevention = result
+            print(f"✅ Found in database: {disease_name}")
+            return JsonResponse({
+                "status": "ok",
+                "did": disease_id,
+                "result": disease_name,
+                "trt": causes,
+                "pm": prevention
+            })
         else:
-            row.append(0)
-
-    ress = prep([row], distdi)
-    qry = "select diseasename,causes,howtoprevent from myapp_disease_table where id=" + str(ress)
-    cmd.execute(qry)
-    res = cmd.fetchone()
-    print(res[0], "aaaaaaaaaaaaaa")
-    print(res[0], "aaaaaaaaaaaaaa")
-    print(res[1], "aaaaaaaaaaaaaa")
-    print(res[2], "aaaaaaaaaaaaaa")
-    ob = disease_table.objects.get(id=ress)
-    print(res[1],"kkkkkkkkkkkkkk")
-    print(res[2],"prewww")
-    print({"status":"ok","did":res[0],"result":res[0],"trt":res[1],"pm":res[2]})
-    return JsonResponse({"status":"ok","did":res[0],"result":res[0],"trt":res[2],"pm":res[1]})
+            # Disease predicted but not in database
+            print(f"⚠️ Disease '{predicted_disease}' not found in database")
+            return JsonResponse({
+                "status": "ok",
+                "did": 0,
+                "result": predicted_disease,
+                "trt": "Please consult a doctor for detailed information about this condition.",
+                "pm": "Maintain a healthy lifestyle and seek medical advice."
+            })
+            
+    except ValueError as e:
+        # Symptom not found in Training.csv
+        print(f"❌ ValueError: {e}")
+        return JsonResponse({
+            "status": "error",
+            "message": f"One or more symptoms not recognized: {str(e)}"
+        })
+    
+    except Exception as e:
+        # Other errors
+        print(f"❌ Error in predict_symptoms: {e}")
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({
+            "status": "error",
+            "message": "Prediction failed. Please try again."
+        })
 
 
 
@@ -1384,11 +1429,36 @@ def bookappointment(request, id):
     today = datetime.today().date()
     threshold = today + timedelta(days=1)
     schedules = schedule_table.objects.filter(DOCTOR__id=id, date__gte=threshold)
-    return render(request, 'user/bookappointment.html', {'doctor': doctor, 'schedules': schedules})
+    
+    schedule_data = []
+    for schedule in schedules:
+        # Get ALL booked tokens for this schedule (regardless of booking date)
+        booked_tokens = list(booking_table.objects.filter(
+            SCHEDULE_id=schedule.id
+        ).values_list('token', flat=True))
+        
+        booked_tokens = [int(token) for token in booked_tokens]
+        
+        print(f"Schedule ID: {schedule.id}, Date: {schedule.date}")
+        print(f"Booked tokens: {booked_tokens}")
+        
+        schedule_data.append({
+            'schedule': schedule,
+            'booked_tokens': booked_tokens
+        })
+    
+    return render(request, 'user/bookappointment.html', {
+        'doctor': doctor, 
+        'schedule_data': schedule_data
+    })
 
 def confirmbooking(request):
     if 'lid' not in request.session:
         return HttpResponse('''<script>alert("Please login");window.location='/'</script>''')
+    
+    # Debug: Print session lid
+    print(f"Session LID: {request.session.get('lid')}")
+    print(f"Session Type: {request.session.get('type')}")
     
     sid = request.POST['schedule_id']
     pname = request.POST['patientname']
@@ -1397,28 +1467,43 @@ def confirmbooking(request):
     token = request.POST['token']
     
     from datetime import datetime
-    date = datetime.now().date()
-    time = datetime.now().time()
     
-    if booking_table.objects.filter(USER__LOGIN_id=request.session['lid'], SCHEDULE_id=sid, date=date).exists():
-        return HttpResponse('''<script>alert("Already booked today");window.location='/mybookings'</script>''')
+    # Get the schedule to use its date
+    schedule = schedule_table.objects.get(id=sid)
+    booking_date = schedule.date  # Use schedule's date, not today
+    booking_time = datetime.now().time()
     
-    if booking_table.objects.filter(token=token, date=date, SCHEDULE_id=sid).exists():
+    # Check if already booked for this schedule
+    if booking_table.objects.filter(USER__LOGIN_id=request.session['lid'], SCHEDULE_id=sid).exists():
+        return HttpResponse('''<script>alert("Already booked for this schedule");window.location='/mybookings'</script>''')
+    
+    # Check if token is taken for this schedule and date
+    if booking_table.objects.filter(token=token, SCHEDULE_id=sid, date=booking_date).exists():
         return HttpResponse('''<script>alert("Token taken");history.back()</script>''')
     
-    b = booking_table()
-    b.SCHEDULE = schedule_table.objects.get(id=sid)
-    b.USER = user_table.objects.get(LOGIN_id=request.session['lid'])
-    b.status = 'booked'
-    b.date = date
-    b.time = time
-    b.patientname = pname
-    b.age = age
-    b.place = place
-    b.token = token
-    b.save()
+    try:
+        # Get user
+        user = user_table.objects.get(LOGIN_id=request.session['lid'])
+        
+        b = booking_table()
+        b.SCHEDULE = schedule
+        b.USER = user
+        b.status = 'booked'
+        b.date = booking_date
+        b.time = booking_time
+        b.patientname = pname
+        b.age = age
+        b.place = place
+        b.token = token
+        b.save()
+        
+        return HttpResponse('''<script>alert("Booking successful");window.location='/mybookings'</script>''')
     
-    return HttpResponse('''<script>alert("Booking successful");window.location='/mybookings'</script>''')
+    except user_table.DoesNotExist:
+        return HttpResponse('''<script>alert("User not found. Please login again.");window.location='/'</script>''')
+    except Exception as e:
+        print(f"Error: {e}")
+        return HttpResponse(f'''<script>alert("Error: {str(e)}");history.back()</script>''')
 
 
 
