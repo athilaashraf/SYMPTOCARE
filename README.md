@@ -46,32 +46,24 @@ It also includes a **machine-learning disease prediction module**: a patient sel
 - 🔌 REST APIs for **[list what the APIs expose, e.g. doctors, appointments]**
 - 📱 Responsive design for desktop, tablet and mobile
 - 🗄️ Normalized relational schema with **13+ tables**
-
----
-
-## 📸 Screenshots
-
 <div align="center">
 
 | Home Page | Patient Dashboard |
 |:---:|:---:|
-| ![Home](screenshot/Home.png) | ![Patient](screenshot/patient-dashboard.png) |
+| ![Home](screenshot/home.png) | ![Patient](screenshot/patient.png) |
 
-</div>
 | Appointment Booking | Disease Prediction |
-|---|---|
-| ![Booking](screenshots/booking.png) | ![Prediction](screenshots/prediction.png) |
-
-<details>
-<summary><b>🔎 More screenshots (Admin, Doctor, Hospital)</b></summary>
+|:---:|:---:|
+| ![Booking](screenshot/appointment.png) | ![Prediction](screenshot/prediction.png) |
 
 | Admin Dashboard | Doctor Dashboard | Hospital Dashboard |
-|---|---|---|
-| ![Admin](screenshots/admin.png) | ![Doctor](screenshots/doctor.png) | ![Hospital](screenshots/hospital.png) |
+|:---:|:---:|:---:|
+| ![Admin](screenshot/admin.png) | ![Doctor](screenshot/doctor.png) | ![Hospital](screenshot/hosp.png) |
 
-</details>
+</div>
 
----
+
+
 
 ## ⚙️ How It Works
 
