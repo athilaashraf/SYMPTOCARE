@@ -54,7 +54,7 @@ It also includes a **machine-learning disease prediction module**: a patient sel
 
 | Appointment Booking | Disease Prediction |
 |:---:|:---:|
-| ![Booking](screenshot/appointment.png) | ![Prediction](screenshot/prediction.png) |
+| ![Booking](screenshot/appointment.png) | ![Prediction](screenshot/disease.png) |
 
 | Admin Dashboard | Doctor Dashboard | Hospital Dashboard |
 |:---:|:---:|:---:|
