@@ -53,7 +53,7 @@ It also includes a **machine-learning disease prediction module**: a patient sel
 
 | Home Page | Patient Dashboard |
 |---|---|
-| !screenshot/Home.png | ![Patient](screenshots/patient-dashboard.png) |
+| ![Home].screenshot/Home.png | ![Patient](screenshots/patient-dashboard.png) |
 
 | Appointment Booking | Disease Prediction |
 |---|---|
